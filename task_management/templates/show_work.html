@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}
+  ShowBook Page
+{% endblock %}
+{% block body %}
+  
+  <div style="width:90%;margin: auto;">
+    <h1 style="width:30%;margin:10px auto;" class="bg-primary rounded text-white text-center" >Show Tasks</h1>
+    {% if tasks %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Priority</th>
+          <th scope="col">Task Add Date</th>
+          <th scope="col">Task Complete Date</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          {% if task.task_complete_date <= current_datetime %}
+          <td class="table-danger">{{ task.title }}</td>
+          <td class="table-danger">{{ task.description }}</td>
+          <td class="table-danger">{{ task.priority }}</td>
+          <td class="table-danger">{{ task.date_created }}</td>
+          <td class="table-danger">{{ task.task_complete_date }}</td>
+          {% if task.status %}
+          <td class="table-danger">Complete</td>
+          {% else %}
+          <td class="table-danger">inomplete</td>
+          {% endif %}
+          {% else %}
+          <td>{{ task.title }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.priority }}</td>
+          <td>{{ task.date_created }}</td>
+          <td>{{ task.task_complete_date }}</td>
+          {% if task.status %}
+          <td>Complete</td>
+          {% else %}
+          <td>inomplete</td>
+          {% endif %}
+          {% endif %}
+            <td>
+              <a href="{% url 'edit_work' task.id project.id %}" class="btn btn-warning btn-sm">Edit</a>
+               {% comment %}   {% endcomment %}
+              <a href="{% url 'delete_work' task.id project.id %}" class="btn btn-danger btn-sm">Delete</a>
+              {% comment %}  {% endcomment %}
+              <a href="{% url 'complete_work' task.id project.id %}" class="btn btn-success btn-sm">Complete</a>
+              {% comment %}  {% endcomment %}
+          </td>
+          
+          
+        </tr>
+    {% endfor %}
+    
+    
+      </tbody>
+    </table>
+    {% else %}
+    <h3>No data available</h3>
+    {% endif %}
+  </div>
+{% endblock %}
+  
+ 
